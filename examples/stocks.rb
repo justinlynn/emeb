@@ -1,3 +1,6 @@
+require 'bundler'
+Bundler.setup
+
 require 'eventmachine'
 require 'emeb'
 
