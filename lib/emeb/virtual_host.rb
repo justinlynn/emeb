@@ -1,3 +1,5 @@
+require 'emeb/error'
+
 module EMEB
   
   # The VirtualHost routes messages from exchanges to queues via bindings. It
@@ -33,7 +35,7 @@ module EMEB
     # Raise applicable exceptions if any previously declared exchange has a name
     # equal to the exchange to be declared
     def ensure_exchange_name_not_declared exchange_to_be_declared
-      raise DuplicateExchangeNameError if exchanges.any? do |previously_declared_exchange| 
+      raise Error::DuplicateExchangeName if exchanges.any? do |previously_declared_exchange| 
         previously_declared_exchange.name == exchange_to_be_declared.name
       end
     end
@@ -42,7 +44,7 @@ module EMEB
     # Raise applicable exceptions if the given exchange's virtual_host does not equal
     # self
     def ensure_exchange_virtual_host_matches_self exchange_to_be_declared
-      raise ExchangeVirtualHostNotSelfError if exchange_to_be_declared.virtual_host != self
+      raise Error::ExchangeVirtualHostNotReflexive if exchange_to_be_declared.virtual_host != self
     end
     private :ensure_exchange_virtual_host_matches_self
     
@@ -52,15 +54,21 @@ module EMEB
       exchanges.map{|exchange| exchange.bindings}
     end
     
-    # Raised when the name of the exchange to be declared matches the name of a
-    # previously declared exchange. See (VirtualHost#declare_exchange).
-    class DuplicateExchangeNameError < StandardError
+    # Raised when an error occured during an operation on a VirtualHost object.
+    class Error < EMEB::Error
+      
+      # Raised when the name of the exchange to be declared matches the name of a
+      # previously declared exchange. See (VirtualHost#declare_exchange).
+      class DuplicateExchangeName < VirtualHost::Error
+      end
+      
+      # Raised when the virtual_host of the exchange to be declared does not equal
+      # the VirtualHost instance to which the exchange is being declared
+      class ExchangeVirtualHostNotReflexive < VirtualHost::Error
+      end
+      
     end
     
-    # Raised when the virtual_host of the exchange to be declared does not equal
-    # the VirtualHost instance to which the exchange is being declared
-    class ExchangeVirtualHostNotSelfError <StandardError
-    end
   end
   
 end

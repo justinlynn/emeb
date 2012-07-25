@@ -38,20 +38,20 @@ describe EMEB::VirtualHost do
     
     context 'while attempting to declare an exchange with a name equal to a previously declared exchange' do
       
-      it 'raises a DuplicateExchangeNameError exception' do
+      it 'raises a DuplicateExchangeName exception' do
         exchange = double('Exchange', :name => 'test_exchange', :virtual_host => @virtual_host)
         exchange_duplicate = double('Duplicate Exchange', :name => 'test_exchange', :virtual_host => @virtual_host)
         @virtual_host.declare_exchange(exchange)
-        expect{ @virtual_host.declare_exchange(exchange_duplicate) }.to raise_error(EMEB::VirtualHost::DuplicateExchangeNameError)
+        expect{ @virtual_host.declare_exchange(exchange_duplicate) }.to raise_error(EMEB::VirtualHost::Error::DuplicateExchangeName)
       end
       
     end
     
     context 'while attempting to declare an exchange with a virtual_host not equal to the VirtualHost instance to which the exchange is being declared' do
       
-      it 'raises a ExchangeVirtualHostNotSelfError exception' do
+      it 'raises a ExchangeVirtualHostNotReflexive exception' do
         exchange = double('Exchange', :name => 'test_exchange', :virtual_host => double('Invalid VirtualHost'))
-        expect{ @virtual_host.declare_exchange(exchange) }.to raise_error(EMEB::VirtualHost::ExchangeVirtualHostNotSelfError)
+        expect{ @virtual_host.declare_exchange(exchange) }.to raise_error(EMEB::VirtualHost::Error::ExchangeVirtualHostNotReflexive)
       end
       
     end
