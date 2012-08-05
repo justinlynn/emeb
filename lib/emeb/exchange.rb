@@ -25,8 +25,9 @@ module EMEB
     end
     
     def ensure_binding_exchange_matches_self binding_to_declare
-      raise BindingExchangeNotSelfError if binding_to_declare.exchange != self
+      raise Exchange::Error::BindingExchangeNotSelf if binding_to_declare.exchange != self
     end
+    private :ensure_binding_exchange_matches_self
     
     # All queues connected through this Exchange via declared Bindings
     # @return [Queue] The set of queues which can receive messages from this Exchange
@@ -34,9 +35,14 @@ module EMEB
       @bindings.map{|binding| binding.queue}
     end
     
-    # Raised when declaring a binding whose exchange does not match the Exchange to which
-    # the binding is being declared
-    class BindingExchangeNotSelfError < StandardError
+    # Raised when an error occurs when interacting with an EMEB::Exchange object
+    class Error < EMEB::Error
+      
+      # Raised when declaring a binding whose exchange does not match the Exchange to which
+      # the binding is being declared
+      class BindingExchangeNotSelf < Exchange::Error
+      end
+      
     end
     
   end

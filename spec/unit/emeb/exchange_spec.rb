@@ -40,7 +40,7 @@ describe EMEB::Exchange do
       end
       
       it 'raises BindingExchangeNotSelfError' do
-        expect{ @exchange.declare_binding @binding }.to raise_error(EMEB::Exchange::BindingExchangeNotSelfError)
+        expect{ @exchange.declare_binding @binding }.to raise_error(EMEB::Exchange::Error::BindingExchangeNotSelf)
       end
       
     end
