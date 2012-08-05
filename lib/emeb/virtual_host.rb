@@ -51,7 +51,7 @@ module EMEB
     # All available Bindings via declared Exchanges
     # @return [Binding] The set of available Bindings
     def bindings
-      exchanges.map{|exchange| exchange.bindings}
+      exchanges.map(&:bindings)
     end
     
     # Raised when an error occured during an operation on a VirtualHost object.
