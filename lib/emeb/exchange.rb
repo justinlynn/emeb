@@ -20,14 +20,14 @@ module EMEB
     # Registers a valid binding target with the exchange
     # @param binding_to_declare [Binding, #exchange, #queue] The binding to declare for exchange targeting
     def declare_binding binding_to_declare
-      ensure_binding_exchange_matches_self binding_to_declare
+      ensure_binding_exchange_matches_self! binding_to_declare
       @bindings << binding_to_declare
     end
     
-    def ensure_binding_exchange_matches_self binding_to_declare
+    def ensure_binding_exchange_matches_self! binding_to_declare
       raise Exchange::Error::BindingExchangeNotSelf if binding_to_declare.exchange != self
     end
-    private :ensure_binding_exchange_matches_self
+    private :ensure_binding_exchange_matches_self!
     
     # All queues connected through this Exchange via declared Bindings
     # @return [Queue] The set of queues which can receive messages from this Exchange
