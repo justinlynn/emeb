@@ -10,18 +10,20 @@ end
 
 describe EMEB::ConvenienceInterface::ClassMethods do
   
-  it 'defines the on method' do
-    subject.instance_methods.should include(:on)
-  end
-  
-  it 'defines the publish method' do
-    subject.instance_methods.should include(:publish)
-  end
-  
   describe 'defining a consumer' do
+  
+    it 'defines the on method' do
+      subject.instance_methods.should include(:on)
+    end
+  
   end
   
   describe 'publishing a message' do
+      
+    it 'defines the publish method' do
+      subject.instance_methods.should include(:publish)
+    end
+
   end
   
 end
