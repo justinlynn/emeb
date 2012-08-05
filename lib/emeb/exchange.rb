@@ -32,7 +32,7 @@ module EMEB
     # All queues connected through this Exchange via declared Bindings
     # @return [Queue] The set of queues which can receive messages from this Exchange
     def subscribed_queues
-      @bindings.map{|binding| binding.queue}
+      @bindings.map(&:queue)
     end
     
     # Raised when an error occurs when interacting with an EMEB::Exchange object
